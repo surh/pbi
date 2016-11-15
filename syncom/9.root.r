@@ -18,20 +18,25 @@
 library(ggplot2)
 source("~/rhizogenomics/src/trunk/phosphate_code/functions.r")
 
+# Read and process root data
 Tab <- read.table("~/rhizogenomics/data/phosphate/synthetic_physiology/main.and.lateral.roots.txt",
                   sep = "\t", header = TRUE, stringsAsFactors = FALSE)
 head(Tab)
 Tab$Bacteria[ Tab$Bacteria == "+Bacteria" ] <- "SynCom"
 Tab$Pi <- factor(Tab$Pi, levels = c("625uM","50uM"))
+Tab$SynCom <- interaction(Tab$Bacteria,Tab$Rep)
+Tab$PiBac <- interaction(Tab$Pi, Tab$Bacteria)
 
-p1 <- ggplot(Tab, aes(x = Pi, color = Bacteria, y = Main.root)) +
+### Plot main root elongation
+p1 <- ggplot(Tab, aes(x = Bacteria, color = Bacteria, y = Main.root)) +
+  facet_grid(~ Pi) +
   geom_boxplot(outlier.colour = NA,size = 1.5,
                position = position_dodge(width = 0.9)) +
-  geom_jitter(aes(fill = Bacteria), shape = 21, color = "black",size = 2.5,
-              position = position_jitterdodge(jitter.width = 0.5)) +
+  geom_jitter(aes(fill = SynCom),shape = 21, color = "black", size = 2.5,
+              position = position_jitter(width = 0.5), show.legend = FALSE) +
   scale_color_manual(values = c("#23809C","#921F3A")) +
-  scale_fill_manual(values = c("#23809C","#921F3A")) +
-  ylab("Main root length (cm)") +
+  scale_fill_manual(values = c("#23809C","#921F3A", "#a3bec6","#cc8494")) +
+  ylab("Main root elongation (cm)") +
   guides(fill = guide_legend(title = "Bacteria***"),
          color= guide_legend(title = "Bacteria***")) +
   AMOR::theme_blackbox
@@ -39,36 +44,77 @@ p1
 ggsave("main.root.png",p1, width = 5, height = 4)
 ggsave("main.root.svg",p1, width = 5, height = 4)
 
-Tab$PiBac <- interaction(Tab$Pi, Tab$Bacteria)
+# Test main root elongation
 m1 <- aov(Main.root ~ Bacteria + Rep, data = Tab)
 summary(m1)
 m1.tuk <- TukeyHSD(m1)
-m1.tuk$PiBac
+m1.tuk$Bacteria
 tuk <- agricolae::HSD.test(m1,trt = "Bac")
 tuk
 
-p1 <- ggplot(Tab, aes(x = Pi, color = Bacteria, y = Lateral.root)) +
+# Plot residual quantiles versus normal distribution quantiles
+qqnorm(resid(m1))
+qqline(resid(m1))
+
+### Plot number of lateral roots
+p1 <- ggplot(Tab, aes(x = Bacteria, color = Bacteria, y = Lateral.root)) +
+  facet_grid(~ Pi) +
   geom_boxplot(outlier.colour = NA,size = 1.5,
                position = position_dodge(width = 0.9)) +
-  geom_jitter(aes(fill = Bacteria), shape = 21, color = "black",size = 2.5,
-              position = position_jitterdodge(jitter.width = 0.5)) +
+  geom_jitter(aes(fill = SynCom),shape = 21, color = "black", size = 2.5,
+              position = position_jitter(width = 0.5), show.legend = FALSE) +
   scale_color_manual(values = c("#23809C","#921F3A")) +
-  scale_fill_manual(values = c("#23809C","#921F3A")) +
+  scale_fill_manual(values = c("#23809C","#921F3A", "#a3bec6","#cc8494")) +
+  ylab("# of lateral roots") +
+  guides(fill = guide_legend(title = "Bacteria***"),
+         color= guide_legend(title = "Bacteria***")) +
+  AMOR::theme_blackbox
+p1
+ggsave("lateral.root.png",p1, width = 5, height = 4)
+ggsave("lateral.root.svg",p1, width = 5, height = 4)
+
+# Test differences in lateral root number
+m1 <- aov(Lateral.root ~ Bacteria + Rep, data = Tab)
+summary(m1)
+m1.tuk <- TukeyHSD(m1)
+m1.tuk$Bacteria
+tuk <- agricolae::HSD.test(m1,trt = "Bac")
+tuk
+
+# Plot residual quantiles versus normal distribution quantiles
+qqnorm(resid(m1))
+qqline(resid(m1))
+
+# Plot Lateral root density
+Tab$Lateral.root.density <- Tab$Lateral.root / Tab$Main.root
+p1 <- ggplot(Tab, aes(x = Bacteria, color = Bacteria, y = Lateral.root.density)) +
+  facet_grid(~ Pi) +
+  geom_boxplot(outlier.colour = NA,size = 1.5,
+               position = position_dodge(width = 0.9)) +
+  geom_jitter(aes(fill = SynCom),shape = 21, color = "black", size = 2.5,
+              position = position_jitter(width = 0.5), show.legend = FALSE) +
+  scale_color_manual(values = c("#23809C","#921F3A")) +
+  scale_fill_manual(values = c("#23809C","#921F3A", "#a3bec6","#cc8494")) +
   ylab("[# Lateral root] / [Main root (cm)]") +
   guides(fill = guide_legend(title = "Bacteria***"),
          color= guide_legend(title = "Bacteria***")) +
-  
   AMOR::theme_blackbox
 p1
-ggsave("lateral.root.png",p1,width = 5, height = 4)
-ggsave("lateral.root.svg",p1,width = 5, height = 4)
+ggsave("lateral.root.density.png",p1, width = 5, height = 4)
+ggsave("lateral.root.density.svg",p1, width = 5, height = 4)
 
-m1 <- aov(Lateral.root ~ Bacteria + Rep, data = Tab)
+# Test lateral root density
+m1 <- aov(Lateral.root.density ~ Bacteria + Rep, data = Tab)
 summary(m1)
 m1.tuk <- TukeyHSD(m1)
 tuk <- agricolae::HSD.test(m1,trt = "Bac")
 tuk
 
+# Plot residual quantiles versus normal distribution quantiles
+qqnorm(resid(m1))
+qqline(resid(m1))
+
+# Fertilization
 Tab <- read.table("~/rhizogenomics/data/phosphate/synthetic_physiology/fertilization.txt",
                   sep = "\t", header = TRUE)
 head(Tab)
