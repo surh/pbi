@@ -23,7 +23,27 @@ the European Nucleotide Archive's Short Read Archive under study accession: [PRJ
 
 If you use this code or the data associated with it please cite:
 
-Castrillo, Pereira Lima Texeira, Herrera Paredes et al. 2016.
+Castrillo G, Teixeira PJPL, Herrera Paredes S, Law TF, de Lorenzo L, Feltcher ME, *et al*.
+"Root microbiota drive direct integration of phosphate stress and immunity" (2017). *Nature*.
+2017 Mar 15; Available from: http://www.nature.com/doifinder/10.1038/nature21417
+
+A BibTex entry for this publication is:
+
+```tex
+@article{Castrillo2017,
+author = {Castrillo, Gabriel and Teixeira, Paulo Jos{\'{e}} Pereira Lima and {Herrera Paredes}, Sur and Law, Theresa F. and de Lorenzo, Laura and Feltcher, Meghan E. and Finkel, Omri M. and Breakfield, Natalie W. and Mieczkowski, Piotr and Jones, Corbin D. and Paz-Ares, Javier and Dangl, Jeffery L},
+doi = {10.1038/nature21417},
+file = {:home/sur/Documentos/Mendeley Desktop/2017/Nature/Castrillo et al.{\_}Nature{\_}Root microbiota drive direct integration of phosphate stress and immunity.pdf:pdf},
+issn = {0028-0836},
+journal = {Nature},
+mendeley-groups = {Rhizogenomics/Thesis},
+month = {mar},
+title = {{Root microbiota drive direct integration of phosphate stress and immunity}},
+url = {http://www.nature.com/doifinder/10.1038/nature21417},
+year = {2017}
+}
+```
+
 
 ## Copyright
 
