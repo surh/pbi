@@ -19,6 +19,18 @@ The raw sequencing reads that underlie the data in these analysis are publicly a
 the European Nucleotide Archive's Short Read Archive under study accession: [PRJEB15671]
 (http://www.ebi.ac.uk/ena/data/view/PRJEB15671).
 
+
+## Functions files
+
+Most scripts load one or two different functions.r files. Those two files are located at the main
+directory.
+
+The file that is referenced as "~/rhizogenomics/src/trunk/phosphate_code/functions.r" is
+simply named `functions.r`.
+
+The file that is referenced as "~/rhizogenomics/src/trunk/immune_code/PRR_propep/functions.r"
+is named `functions_prrpropep.r`.
+
 ## Referencing
 
 If you use this code or the data associated with it please cite:
