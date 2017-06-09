@@ -9,15 +9,18 @@ plants growing in a wild soil (census) or on plates with a synthetic community (
 The `census` directory contains code used to analyze the microbial community composition of
 plants gorwing in wild Mason Farm soil.
 
-The `syncom` directory contains code used to analyze the microbial community composition, and
-the plant phenotypes, of plants growing on agar plates with a well-defined but complex
+The `syncom` directory contains code used to analyze the microbial community composition,
+and the plant phenotypes, of plants growing on agar plates with a well-defined but complex
 synthetic bacterial community, under different phosphate conditions.
+
+The `misc` directory contains intermediate files that have been made available after
+publication upon request. The `misc/unifrac` subdirectory contains UniFrac distance
+matrices as calculated in QIIME/1.5.0 (described in [Castrillo *et al*. 2017](http://www.nature.com/doifinder/10.1038/nature21417)).
 
 ## Data
 
 The raw sequencing reads that underlie the data in these analysis are publicly available in
-the European Nucleotide Archive's Short Read Archive under study accession: [PRJEB15671]
-(http://www.ebi.ac.uk/ena/data/view/PRJEB15671).
+the European Nucleotide Archive's Short Read Archive under study accession: [PRJEB15671](http://www.ebi.ac.uk/ena/data/view/PRJEB15671).
 
 
 ## Functions files
@@ -36,8 +39,8 @@ is named `functions_prrpropep.r`.
 If you use this code or the data associated with it please cite:
 
 Castrillo G, Teixeira PJPL, Herrera Paredes S, Law TF, de Lorenzo L, Feltcher ME, *et al*.
-"Root microbiota drive direct integration of phosphate stress and immunity" (2017). *Nature*.
-2017 Mar 15; Available from: http://www.nature.com/doifinder/10.1038/nature21417
+"Root microbiota drive direct integration of phosphate stress and immunity" (2017). *Nature*
+543(7646):513–8. Available from: http://www.nature.com/doifinder/10.1038/nature21417
 
 A BibTex entry for this publication is:
 
@@ -53,7 +56,6 @@ url = {http://www.nature.com/doifinder/10.1038/nature21417},
 year = {2017}
 }
 ```
-
 
 ## Copyright
 
