@@ -116,5 +116,10 @@ Dat
 # First step is to fit linear models.
 # IMPORTANT!!: The following function was written with the specific dataset of this project in mind.
 # It makes strong assumptions about the metadata available.
+m1 <- fit_4_models(Dat = Dat, f1 = ~ soil + Genotype + Fraction + plate,
+                   group = c('A'), 
+                   mutant_order = levels(Dat$Map$Genotype),
+                   min_reads_otu = 25,
+                   min_samples_otu = 5)
 
 
