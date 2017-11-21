@@ -223,16 +223,8 @@ calculate_enrich <- function(enrich, top_phyla = top_phyla, mut_order){
 #' 
 fit_4_models <- function(Dat, f1, group, mutant_order, min_reads_otu = 25,
                          min_samples_otu = 5){
-  # Dat <- Dat.fam
-  # f1 <- f1
-  # group <- c("SL15","SL25","SL29")
-  # mutant_order <- mutant_order
-  # min_reads_otu <- 25
-  # min_samples_otu <- 5
   
   # remove samples in different experiments
-  # to_remove <- row.names(Dat$Map)[ !(Dat$Map$Experiment %in% group) ]
-  # Dat.group <- remove_samples(Dat, samples = to_remove)
   Dat.group <- subset(Dat, Experiment %in% group, clean = TRUE, drop = TRUE)
   
   # Remove otus under the  measurable threshold
@@ -262,13 +254,6 @@ fit_4_models <- function(Dat, f1, group, mutant_order, min_reads_otu = 25,
   m4 <- matrix_zeroinfl(x = Dat.group, formula = f1, family = "negbin",
                         link = "log",verbose = TRUE)
   
-  # Compare AIC
-  #m1 <- models$m1
-  #m2 <- models$m2
-  #m3 <- models$m3
-  #m4 <- models$m4
-  #aic <- models$aic
-  
   aic <- data.frame(glm = m1$AIC, glm.NB = m2$AIC, zip = m3$AIC, zinb = m4$AIC)
   best.index <- apply(aic,1,which.min)
   to_remove <- sapply(best.index,length)
@@ -278,7 +263,6 @@ fit_4_models <- function(Dat, f1, group, mutant_order, min_reads_otu = 25,
   
   aic$best <-  colnames(aic)[ best.index ]
   
-  #models <- list(m1 = m1, m2 = m2, m3 = m3, m4 = m4, aic = aic)
   return(list(m1 = m1, m2 = m2, m3 = m3, m4 = m4, aic = aic))
 }
 
