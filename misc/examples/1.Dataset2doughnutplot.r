@@ -238,7 +238,8 @@ data(Rhizo.map)
 data(Rhizo.tax)
 
 # IMPORTANT!!! We need to change the name of some variables to make them consistent with the
-# functions in his Dataset.
+# functions in his Dataset. These functions were designed to work with a specific dataset, and
+# therefore make strong assumptions about the metadata present.
 Rhizo.map$Fraction <- Rhizo.map$fraction
 Rhizo.map$Depth <- colSums(Rhizo)
 Rhizo.map$Experiment <- 'A'
@@ -247,33 +248,12 @@ Rhizo.map$fraction <- Rhizo.map$accession <- NULL
 Rhizo.map$Fracgen <- interaction(Rhizo.map$Genotype,
                                  factor(Rhizo.map$Fraction, levels = c('E','R','Soil')),
                                  drop = TRUE)
-
 Dat <- create_dataset(Tab = Rhizo, Map = Rhizo.map, Tax = Rhizo.tax)
 rm(Rhizo, Rhizo.map, Rhizo.tax)
 Dat
 
-
-# First step is to fit linear models.
-# IMPORTANT!!: The following function was written with the specific dataset of this project in mind.
-# It makes strong assumptions about the metadata available.
-# m1 <- fit_4_models(Dat = Dat, f1 = ~ soil + Genotype + Fraction + plate,
-#                    group = c('A'), 
-#                    mutant_order = levels(Dat$Map$Genotype),
-#                    min_reads_otu = 25,
-#                    min_samples_otu = 5)
-# m1 <- fit_4_models(Dat = Dat, f1 = ~ soil + Genotype + Fraction + plate,
-#                    group = c('A'), 
-#                    mutant_order = levels(Dat$Map$Genotype),
-#                    min_reads_otu = 25,
-#                    min_samples_otu = 5)
-
 # This is not an appropriate model, and it will throw a bunch of errors, but it serves as
 # demonstration
-
-# levels(Dat$Map$Fracgen)
-# # Dat$Map$Fracgen <- relevel(Dat$Map$Fracgen, ref = 'E.Col')
-# levels(Dat$Map$Fracgen)
-
 m1 <- matrix_glm(x = Dat,formula = ~ soil + Fraction + Genotype + Fracgen + plate)
 Full <- summary(m1)$coefficients
 Full <- droplevels(subset(Full, !is.na(p.value)))
