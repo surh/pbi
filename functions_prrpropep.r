@@ -1,3 +1,9 @@
+#' Test similarity of enrichments and depletions
+#' 
+#' @param dat output data from plot_fracgen_heatmap
+#' @param wt reference genotype
+#' @param dist.method distance method from dist function
+#' @param nperm Number of permutations
 monte_carlo_test <- function(dat, wt = "Col-0",dist.method = "manhattan",
                              nperm = 1000){
   dat$Enrichment <- as.numeric(as.character(dat$Enrichment))
@@ -26,8 +32,15 @@ monte_carlo_test <- function(dat, wt = "Col-0",dist.method = "manhattan",
   
 }
 
-doughnut_plot <- function(dat,top_phyla, mut_order, text_size = 10){
-  count <- ftable(Enrichment~Genotype,dat)[-1,-3]
+#' Doughnut plot
+#' 
+#' @param dat The output data attribute from plot_fracgen_heatmap
+#' @param top_phyla Phyla to show explicitly. The rest will be lumped into other
+#' @param mut_order Order of genotypes to show
+#' @param text_size Size of text for numbers inside doughnuts
+#' @param phyla_colors Vector of colors to use
+doughnut_plot <- function(dat,top_phyla, mut_order, text_size = 10, phyla_colors = phyla_colors){
+  count <- matrix(ftable(Enrichment~Genotype,dat)[-1,-3], ncol = 2)
   row.names(count) <- mut_order[c(-1,-length(mut_order))]
   colnames(count) <- c("Depletion", "Enrichment")
   count <- melt(count,varnames = c("Genotype","Type"),value.name = "Total")
@@ -91,15 +104,7 @@ doughnut_plot <- function(dat,top_phyla, mut_order, text_size = 10){
 plot_fragen_heatmap <- function(Full,Dat,group, variable = "FracgenEC:",
                                 sig_thres = 0.05, pool.FUN = mean, phyl.level = 3,
                                 mut_order){
-  #group <- c("SL15")
-  #variable <- "FracgenEC:"
-  #sig_thres <- 0.05
-  #Dat <- Dat.fam
-  #Full <- Full
-  #pool.FUN <- mean
-  #phyl.level <- 3
-  #mut_order <- pepr_order
-  
+
   # Get significant
   Gen <- Full[ grep(variable,Full$Variable), ]
   fracgen_effect <- as.character(unique(Gen$Taxon[ Gen$q.value < sig_thres ]))
@@ -167,7 +172,6 @@ plot_fragen_heatmap <- function(Full,Dat,group, variable = "FracgenEC:",
                                      angle = 90, size = 20),
           panel.background = element_blank(),
           strip.text.y = element_text(angle = 360))
-  #p1
   
   return(p1)
 }
