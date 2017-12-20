@@ -1,3 +1,6 @@
+
+[![DOI](https://img.shields.io/badge/DOI-10.1038%2Fnature21417-blue.svg)](https://doi.org/10.1038/nature21417)
+
 # pbi
 Microbiome analysis for phosphate-defense interaction
 
