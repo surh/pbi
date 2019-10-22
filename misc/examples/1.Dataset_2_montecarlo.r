@@ -81,7 +81,7 @@ plot_fragen_heatmap <- function(Full,Dat,group, variable = "FracgenEC:",
   Dat.group <- remove_samples(Dat = Dat.group,
                               samples = colnames(Dat.group$Tab)[ Dat.group$Map$Fraction %in% c("R","Soil") ])
   # Pool by genotype
-  Dat.group <- pool_samples(Dat = Dat.group, groups = "Genotype", FUN = mean)
+  Dat.group <- pool_samples(x = Dat.group, groups = "Genotype", FUN = mean)
   
   # Create plotting object
   dat <- as.data.frame(Dat.group$Tab)
@@ -164,7 +164,7 @@ doughnut_plot <- function(dat,top_phyla, mut_order, text_size = 10, phyla_colors
     geom_text(data = subset(enrich, is.na(ymin)),
               aes(label = Total), x = 0, y = 0, size = text_size,
               fontface = "bold") +
-    theme_blackbox +
+    theme_blackbox() +
     theme(axis.text = element_blank(),
           axis.ticks = element_blank())
   #p1
@@ -292,3 +292,4 @@ p1
 set.seed(7151)
 pval <- monte_carlo_test(dat = dat,wt = 'Col', nperm = 5000)
 pval
+
